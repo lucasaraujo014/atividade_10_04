@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Lucas Araujo">
+    <title>Agenda de Contatos</title>
+</head>
+
+<body>
+    <script>
+        let contacts = [];
+
+        function showMenu() {
+            return parseInt(prompt(`
+                ***** Agenda de Contatos *****
+                [1] - Adicionar Contato
+                [2] - Visualizar Contatos
+                [3] - Editar Contato
+                [4] - Excluir Contato
+                [5] - Sair do Programa         
+            `));
+        }
+
+        function addContact() {
+            const name = prompt("Informe o nome do contato:");
+            const number = prompt("Informe o número do contato:");
+            const email = prompt("Informe o e-mail do contato:");
+
+            if (!name || !number || !email) {
+                alert("Todos os campos são obrigatórios.");
+                return;
+            }
+
+            const dateAdded = new Date().toLocaleString();
+            contacts.push({ name, number, email, dateAdded });
+            alert("Contato adicionado com sucesso!");
+        }
+
+        function viewContacts() {
+            let contactList = "***** Lista de Contatos *****\n";
+            contacts.forEach(contact => {
+                contactList += `
+                Nome: ${contact.name}, 
+                Número: ${contact.number}, 
+                E-mail: ${contact.email}, 
+                Data de Adição: ${contact.dateAdded}\n\n`;
+            });
+            alert(contactList);
+        }
+
+        function editContact() {
+            const nameToEdit = prompt("Informe o nome do contato que deseja editar:");
+            const foundContact = contacts.find(contact => contact.name === nameToEdit);
+
+            if (!foundContact) {
+                alert("Contato não encontrado.");
+                return;
+            }
+
+            const newName = prompt("Novo nome do contato:");
+            const newNumber = prompt("Novo número do contato:");
+            const newEmail = prompt("Novo e-mail do contato:");
+
+            if (newName) {
+                foundContact.name = newName;
+            }
+            if (newNumber) {
+                foundContact.number = newNumber;
+            }
+            if (newEmail) {
+                foundContact.email = newEmail;
+            }
+
+            alert("Contato atualizado com sucesso!");
+        }
+
+        function deleteContact() {
+            const nameToDelete = prompt("Informe o nome do contato que deseja excluir:");
+            const index = contacts.findIndex(contact => contact.name === nameToDelete);
+
+            if (index === -1) {
+                alert("Contato não encontrado.");
+                return;
+            }
+
+            const confirmDelete = confirm(`Tem certeza que deseja excluir o contato ${nameToDelete}?`);
+
+            if (confirmDelete) {
+                contacts.splice(index, 1);
+                alert("Contato excluído com sucesso!");
+            }
+        }
+
+        let option = true;
+        while (option) {
+            switch (showMenu()) {
+                case 1:
+                    addContact();
+                    break;
+                case 2:
+                    viewContacts();
+                    break;
+                case 3:
+                    editContact();
+                    break;
+                case 4:
+                    deleteContact();
+                    break;
+                case 5:
+                    alert("Saindo do programa");
+                    option = false;
+                    break;
+                default:
+                    alert("Opção inválida.");
+                    break;
+            }
+        }
+    </script>
+</body>
+
+</html>
